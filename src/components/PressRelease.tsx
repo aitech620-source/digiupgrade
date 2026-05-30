@@ -13,7 +13,7 @@ import {
   FileText,
 } from "lucide-react";
 import { CTASection } from "./Footer";
-import PressReleaseHeroVisual3D from "./PressReleaseHeroVisual3D";
+import DGXXPressReleaseVisual from "./DGXXPressReleaseVisual";
 
 /* ─── Strapi API base ─── */
 const STRAPI_BASE = "https://thankful-miracle-1ed8bdfdaf.strapiapp.com";
@@ -306,7 +306,7 @@ const PressRelease = () => {
       {/* ═══════════════════════════════════════════ */}
       {/* HERO SECTION */}
       {/* ═══════════════════════════════════════════ */}
-      <section className="relative min-h-0 lg:min-h-[70vh] overflow-hidden bg-[#050505] flex items-center pt-32 pb-8 lg:pt-15 lg:pb-16 px-4 sm:px-6">
+      <section className="relative min-h-0 lg:min-h-[70vh] overflow-hidden bg-[#050505] flex items-center pt-32 pb-8 lg:pt-40 lg:pb-16 px-4 sm:px-6">
         <div className="relative z-10 w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-16 items-center lg:pt-0">
           {/* LEFT: Text */}
           <motion.div
@@ -358,14 +358,14 @@ const PressRelease = () => {
             </motion.div>
           </motion.div>
 
-          {/* RIGHT: 3D Animation */}
+          {/* RIGHT: Glass-stack animation */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="w-full h-[320px] sm:h-[380px] lg:h-[550px] lg:min-h-[750px] relative -mt-6 md:-mt-16 lg:-mt-20 overflow-hidden"
           >
-            <PressReleaseHeroVisual3D />
+            <DGXXPressReleaseVisual />
           </motion.div>
         </div>
       </section>

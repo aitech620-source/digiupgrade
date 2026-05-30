@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import WaveVisual from './WaveVisual';
+import LottieReact from 'lottie-react';
+import contactAnimation from '../assets/contact-us.json';
+
+// Vite's dev server pre-bundles lottie-react from its UMD "browser" build, whose
+// default-export interop yields the module object instead of the component (so
+// <Lottie/> would render an object and crash). Resolve the actual component
+// defensively so it works under both dev (UMD) and the production ESM build.
+const Lottie: typeof LottieReact =
+  (LottieReact as unknown as { default?: typeof LottieReact }).default ?? LottieReact;
 
 type FormState = {
   firstName: string;
@@ -251,6 +259,15 @@ export default function Contact() {
           background: transparent;
         }
 
+        .ct-left-lottie {
+          position: relative;
+          z-index: 1;
+          width: 86%;
+          max-width: 380px;
+          /* lift the artwork above the testimonial overlay at the bottom */
+          margin-bottom: 64px;
+        }
+
         .ct-form-panel {
           border: 0.5px solid var(--border);
           border-radius: var(--radius-lg);
@@ -399,7 +416,7 @@ export default function Contact() {
             </a>
             <a className="ct-info-card" href="tel:8884749222">
               <div className="ct-info-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.35 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16v.92z" /></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.35 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16v.92z" /></svg>
               </div>
               <div className="ct-info-label">Sales &amp; Support</div>
               <div className="ct-info-value">888-474-9222</div>
@@ -419,7 +436,12 @@ export default function Contact() {
             {/* Left: visual + testimonial */}
             <div className="ct-left">
               <div className="ct-left-placeholder">
-                <WaveVisual />
+                <Lottie
+                  animationData={contactAnimation}
+                  loop
+                  autoplay
+                  className="ct-left-lottie"
+                />
               </div>
               <div className="ct-left-overlay"></div>
               <div className="ct-quote">
@@ -590,7 +612,7 @@ export default function Contact() {
               </div>
             </a>
             <a className="ct-call-card" href="tel:8884749222">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.35 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16v.92z" /></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.35 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16v.92z" /></svg>
               Book an Intro Call
             </a>
           </div>

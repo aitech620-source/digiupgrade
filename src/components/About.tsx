@@ -119,7 +119,7 @@ const BentoCard = ({ children, className = "", delay = 0 }: { children: React.Re
 const About = () => {
   const containerRef = useRef(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [mapSrc, setMapSrc] = useState<string>("/images/us_map_neon.jpg");
+  const [mapSrc, setMapSrc] = useState<string>("/map.png");
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
@@ -138,7 +138,7 @@ const About = () => {
 
   useEffect(() => {
     const img = new Image();
-    img.src = "/images/us_map_neon.jpg";
+    img.src = "/map.png";
     img.onload = () => {
       const canvas = document.createElement("canvas");
       // Crop 6px from all edges to completely remove the white border
@@ -221,11 +221,10 @@ const About = () => {
             className="lg:col-span-6 w-full relative flex items-start justify-center pt-0"
           >
             <div className="w-full relative flex items-start justify-center pt-0">
-              <div className="absolute w-[80%] aspect-square bg-brand-yellow/[0.03] rounded-full blur-[100px] pointer-events-none top-0" />
               <img
                 src={mapSrc}
                 alt="DigiPowerX U.S. Infrastructure Map"
-                className="w-full h-auto mix-blend-screen drop-shadow-[0_20px_50px_rgba(245,197,24,0.15)] rounded-2xl hover:scale-[1.02] transition-transform duration-700 ease-out"
+                className="w-full h-auto mix-blend-screen hover:scale-[1.02] transition-transform duration-700 ease-out"
                 style={{ mixBlendMode: 'screen' }}
                 loading="lazy"
               />

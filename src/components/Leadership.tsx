@@ -10,7 +10,7 @@ import {
   X,
   Mail
 } from 'lucide-react';
-import LeadershipHeroVisual3D from './LeadershipHeroVisual3D';
+import DGXXLeadershipVisual from './DGXXLeadershipVisual';
 import { CTASection } from './Footer';
 
 // Leadership Portraits from public/images
@@ -118,7 +118,7 @@ const Leadership = () => {
   return (
     <div className="bg-black min-h-screen text-white selection:bg-brand-yellow selection:text-black">
       {/* Hero Section */}
-      <section className="relative min-h-0 lg:min-h-screen flex items-center pt-32 pb-8 lg:pt-10 lg:pb-16 px-4 lg:px-6 overflow-hidden">
+      <section className="relative min-h-0 lg:min-h-screen flex items-center pt-40 pb-8 lg:pt-32 lg:pb-16 px-4 lg:px-6 overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-yellow/[0.03] rounded-full blur-[140px] pointer-events-none" />
 
         <div className="relative z-10 max-w-[1400px] mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-16 items-center lg:pt-0 px-4">
@@ -151,7 +151,7 @@ const Leadership = () => {
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
             className="w-full h-[340px] sm:h-[380px] lg:h-[550px] lg:min-h-[600px] relative overflow-hidden"
           >
-            <LeadershipHeroVisual3D />
+            <DGXXLeadershipVisual />
           </motion.div>
         </div>
       </section>

@@ -22,6 +22,21 @@ const STRAPI_BASE = "https://thankful-miracle-1ed8bdfdaf.strapiapp.com";
 const SEC_FILINGS_API = `${STRAPI_BASE}/api/sec-filings`;
 const PAGE_SIZE = 9; // 3x3 grid
 
+/* ─── Tab → form_type matching ───
+ * The dataset's `form_type` values are inconsistent (e.g. "FORM 8-K", "\t6-K",
+ * "FORM 10-K/A") and include foreign-issuer equivalents. Each tab matches by
+ * case-insensitive substring so prefixes/whitespace/"/A" amendments are caught,
+ * and groups the foreign equivalents with their US counterparts:
+ *   Annual    → 10-K / 20-F
+ *   Quarterly → 10-Q
+ *   Current   → 8-K / 6-K
+ */
+const TAB_FORM_MATCHES: Record<string, string[]> = {
+  "10-K": ["10-K", "20-F"],
+  "10-Q": ["10-Q"],
+  "8-K": ["8-K", "6-K"],
+};
+
 /* ─── Types ─── */
 interface StrapiPdf {
   url: string;
@@ -91,7 +106,7 @@ function getFilingTitle(type: string, dateStr: string): string {
         q = "Q3";
       }
       return `Quarterly Report — ${q} ${qYear}`;
-    } else if (type === "10-K") {
+    } else if (type === "10-K" || type === "20-F") {
       return `Annual Report — Fiscal Year ${year - 1}`;
     } else if (type === "8-K" || type === "6-K" || type === "6-K/A") {
       return `Current Report — ${date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`;
@@ -242,13 +257,12 @@ const SECFilings = () => {
 
       let filterQuery = "";
       if (typeFilter && typeFilter !== "ALL") {
-        if (typeFilter === "8-K") {
-          // The database holds foreign current reports as 6-K or 6-K/A. 
-          // We filter by 8-K, 6-K, or 6-K/A to ensure they show up in this tab.
-          filterQuery = `&filters[form_type][$in][0]=8-K&filters[form_type][$in][1]=6-K&filters[form_type][$in][2]=6-K/A`;
-        } else {
-          filterQuery = `&filters[form_type][$eq]=${typeFilter}`;
-        }
+        // Match by case-insensitive substring so messy values ("FORM 8-K",
+        // "\t6-K", "FORM 10-K/A") and foreign equivalents are all caught.
+        const matches = TAB_FORM_MATCHES[typeFilter] || [typeFilter];
+        filterQuery = matches
+          .map((m, i) => `&filters[$or][${i}][form_type][$containsi]=${encodeURIComponent(m)}`)
+          .join("");
       }
 
       const url = `${SEC_FILINGS_API}?populate=*&sort[0]=date:desc&pagination[page]=${page}&pagination[pageSize]=${PAGE_SIZE}${filterQuery}`;
@@ -608,6 +622,13 @@ const SECFilings = () => {
                     };
                   } else if (docType.includes("10-K")) {
                     displayType = "10-K";
+                    IconComponent = FileText;
+                    colorClasses = {
+                      badge: "border-blue-500/20 text-blue-400 bg-blue-500/5",
+                      button: "border-blue-500/20 text-blue-400 hover:bg-blue-500/10",
+                    };
+                  } else if (docType.includes("20-F")) {
+                    displayType = "20-F";
                     IconComponent = FileText;
                     colorClasses = {
                       badge: "border-blue-500/20 text-blue-400 bg-blue-500/5",
